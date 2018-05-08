@@ -112,15 +112,18 @@ class TodoListApp extends Component {
 
         const newTodo = {
             todo: this.state.inputText,
-            completed: false
+            completed: false,
+            owner: this.props.currentUserId
         };
 
         ToDos.insert(newTodo);
     }
 
     render() {
-        console.log(this.props.currentUser, this.props.currentUserId);
         const { todos } = this.props;
+        const userTodos = todos.filter(
+            todo => todo.owner === this.props.currentUserId
+        );
         return (
             <div className="app-wrapper">
                 <div className="login-wrapper">
@@ -135,7 +138,7 @@ class TodoListApp extends Component {
                         />
                         {todos.length > 0 ? (
                             <TodoList
-                                todoListItems={todos}
+                                todoListItems={userTodos}
                                 toggleComplete={this.toggleComplete}
                                 removeTodo={this.removeTodo}
                             />
