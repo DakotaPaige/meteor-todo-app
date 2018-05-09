@@ -20,3 +20,9 @@ Meteor.methods({
         ToDos.remove({ _id: todo._id });
     }
 });
+
+if (Meteor.isServer) {
+    Meteor.publish('todos', function todosPublication() {
+        return ToDos.find({ owner: this.userId });
+    });
+}

@@ -114,9 +114,9 @@ class TodoListApp extends Component {
 
     render() {
         const { todos } = this.props;
-        const userTodos = todos.filter(
-            todo => todo.owner === this.props.currentUserId
-        );
+        // const userTodos = todos.filter(
+        //     todo => todo.owner === this.props.currentUserId
+        // );
         return (
             <div className="app-wrapper">
                 <div className="login-wrapper">
@@ -131,7 +131,7 @@ class TodoListApp extends Component {
                         />
                         {todos.length > 0 ? (
                             <TodoList
-                                todoListItems={userTodos}
+                                todoListItems={todos}
                                 toggleComplete={this.toggleComplete}
                                 removeTodo={this.removeTodo}
                             />
@@ -139,7 +139,7 @@ class TodoListApp extends Component {
                             'Nothing to do'
                         )}
                         <TodoListFooter
-                            todoCount={userTodos.length}
+                            todoCount={todos.length}
                             clearCompleted={this.clearCompleted}
                         />
                     </div>
@@ -154,6 +154,7 @@ class TodoListApp extends Component {
 }
 
 const TodoAppContainer = withTracker(() => {
+    Meteor.subscribe('todos');
     return {
         currentUser: Meteor.user(),
         currentUserId: Meteor.userId(),
