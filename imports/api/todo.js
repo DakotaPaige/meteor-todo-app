@@ -16,8 +16,8 @@ Meteor.methods({
             { $set: { completed: !item.completed } }
         );
     },
-    'todos.clearCompleted'(todo) {
-        ToDos.remove({ _id: todo._id });
+    'todos.clearCompleted'(completedIds) {
+        ToDos.remove({ _id: { $in: completedIds } });
     }
 });
 

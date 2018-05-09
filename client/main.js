@@ -93,7 +93,10 @@ class TodoListApp extends Component {
         const completedTodos = this.props.todos.filter(
             todo => todo.completed === true
         );
-        completedTodos.map(todo => Meteor.call('todos.clearCompleted', todo));
+        const completedIds = [];
+        // completedTodos.map(todo => Meteor.call('todos.clearCompleted', todo));
+        completedTodos.map(todo => completedIds.push(todo._id));
+        Meteor.call('todos.clearCompleted', completedIds);
     }
 
     handleInput(event) {
