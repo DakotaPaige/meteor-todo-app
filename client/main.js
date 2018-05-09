@@ -61,13 +61,7 @@ class TodoListApp extends Component {
     constructor() {
         super();
         this.state = {
-            todos: [
-                { id: 0, todo: 'Learn React', completed: false },
-                { id: 1, todo: 'Learn Redux', completed: false },
-                { id: 2, todo: 'Pet a cat', completed: false }
-            ],
-            inputText: '',
-            lastId: 2
+            inputText: ''
         };
         this.toggleComplete = this.toggleComplete.bind(this);
         this.removeTodo = this.removeTodo.bind(this);
@@ -77,10 +71,7 @@ class TodoListApp extends Component {
     }
 
     toggleComplete(item) {
-        ToDos.update(
-            { _id: item._id },
-            { $set: { completed: !item.completed } }
-        );
+        Meteor.call('todos.toggleComplete', item);
         // let todos = this.props.todos.map(todo => {
         //     if (item._id === todo._id) {
         //         todo.completed = !todo.completed;
@@ -91,7 +82,9 @@ class TodoListApp extends Component {
     }
 
     removeTodo(item) {
-        ToDos.remove({ _id: item._id });
+        // ToDos.remove({ _id: item._id });
+        Meteor.call('todos.removeTodo', item);
+
         // let todos = this.props.todos.filter(todo => todo.id !== item.id);
         // this.setState({ todos });
     }
@@ -100,7 +93,7 @@ class TodoListApp extends Component {
         const completedTodos = this.props.todos.filter(
             todo => todo.completed === true
         );
-        completedTodos.map(todo => ToDos.remove({ _id: todo._id }));
+        completedTodos.map(todo => Meteor.call('todos.clearCompleted', todo));
     }
 
     handleInput(event) {
@@ -116,7 +109,7 @@ class TodoListApp extends Component {
             owner: this.props.currentUserId
         };
 
-        ToDos.insert(newTodo);
+        Meteor.call('todos.addTodo', newTodo);
     }
 
     render() {
@@ -146,7 +139,7 @@ class TodoListApp extends Component {
                             'Nothing to do'
                         )}
                         <TodoListFooter
-                            todoCount={todos.length}
+                            todoCount={userTodos.length}
                             clearCompleted={this.clearCompleted}
                         />
                     </div>
