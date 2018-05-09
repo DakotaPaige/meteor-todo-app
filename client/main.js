@@ -110,6 +110,8 @@ class TodoListApp extends Component {
         };
 
         Meteor.call('todos.addTodo', newTodo);
+
+        document.getElementById('todo-input').reset();
     }
 
     render() {

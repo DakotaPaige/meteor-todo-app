@@ -9,6 +9,7 @@ export default class TodoInput extends Component {
                 <form
                     style={styles.toDoInput}
                     onSubmit={event => addTodo(event)}
+                    id={'todo-input'}
                 >
                     <input
                         type="text"
