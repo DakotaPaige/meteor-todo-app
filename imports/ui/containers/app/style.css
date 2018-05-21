@@ -1,0 +1,22 @@
+.message-container {
+  position: fixed;
+  bottom: 10px;
+  width: 400px;
+}
+
+.message-container h1 {
+  color: white;
+  background-color: mediumpurple;
+  font-weight: normal;
+  padding: 5px 0px;
+}
+
+ul {
+  padding: 0px 10px;
+}
+
+li {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+}

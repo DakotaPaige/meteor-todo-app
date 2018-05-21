@@ -6,6 +6,8 @@ import { withTracker } from "meteor/react-meteor-data";
 
 import { Messages } from "../../../api/messages";
 
+import "./style.css";
+
 class MessageList extends Component {
   getMessages() {
     return [
@@ -21,6 +23,7 @@ class MessageList extends Component {
           key={message._id}
           time={message.time}
           message={message.message}
+          user={message.user}
         />
       );
     });
@@ -28,8 +31,9 @@ class MessageList extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    let currentUser = this.props.currentUser.emails[0].address;
     let newMessage = ReactDOM.findDOMNode(this.refs.messageInput).value.trim();
-    Meteor.call("messages.addMessage", newMessage);
+    Meteor.call("messages.addMessage", newMessage, currentUser);
 
     ReactDOM.findDOMNode(this.refs.messageInput).value = "";
   }
@@ -48,7 +52,7 @@ class MessageList extends Component {
   }
 
   render() {
-    console.log(this.refs);
+    console.log(this.props);
     return (
       <div className="message-container">
         <h1>Messages</h1>
@@ -62,7 +66,8 @@ class MessageList extends Component {
 const MessageListContainer = withTracker(() => {
   Meteor.subscribe("messages");
   return {
-    messages: Messages.find({}).fetch()
+    messages: Messages.find({}).fetch(),
+    currentUser: Meteor.user()
   };
 })(MessageList);
 

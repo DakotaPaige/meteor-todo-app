@@ -4,8 +4,12 @@ import { Meteor } from "meteor/meteor";
 export const Messages = new Mongo.Collection("messages");
 
 Meteor.methods({
-  "messages.addMessage"(newMessage) {
-    Messages.insert({ time: new Date(), message: newMessage });
+  "messages.addMessage"(newMessage, currentUser) {
+    Messages.insert({
+      time: new Date(),
+      message: newMessage,
+      user: currentUser
+    });
   }
 });
 
