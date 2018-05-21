@@ -33,7 +33,9 @@ class MessageList extends Component {
     event.preventDefault();
     let currentUser = this.props.currentUser.emails[0].address;
     let newMessage = ReactDOM.findDOMNode(this.refs.messageInput).value.trim();
-    Meteor.call("messages.addMessage", newMessage, currentUser);
+    if (newMessage !== "") {
+      Meteor.call("messages.addMessage", newMessage, currentUser);
+    }
 
     ReactDOM.findDOMNode(this.refs.messageInput).value = "";
   }
